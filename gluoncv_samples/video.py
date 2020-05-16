@@ -39,6 +39,9 @@ class Video():
             #return raw_frame #gluon needs a filename
             return self._save_image(raw_frame)
 
+    def __len__(self):
+        return self._total_frames
+
     def _close_cap(self):
         self._cap.release()
         cv2.destroyAllWindows()
