@@ -1,3 +1,5 @@
 env/
 .vscode/
 tmp/
+__pycache__/
+logfile.log
