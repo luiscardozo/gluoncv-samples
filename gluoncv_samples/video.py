@@ -12,7 +12,7 @@ class Video():
     Class to make a video an iterator object, returning next frame on each iteration.
     """
 
-    def __init__(self, video_file):
+    def __init__(self, video_file, as_file=False):
         self._cap = cv2.VideoCapture(video_file)
         self._cap.open(video_file)
         self._width  = int(self._cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -20,6 +20,7 @@ class Video():
         self._total_frames = int(self._cap.get(cv2.CAP_PROP_FRAME_COUNT)) #OpenCV 3+
         print(f"Total frames: {self._total_frames}")
         self._frame_nr = 0
+        self._as_file = as_file
     
     def __iter__(self):
         return self
@@ -36,9 +37,11 @@ class Video():
                 self._close_cap()
                 raise StopIteration
 
-            #return raw_frame #gluon needs a filename
-            return self._save_image(raw_frame)
-
+            if self._as_file:
+                return self._save_image(raw_frame)
+            else:
+                return raw_frame
+            
     def __len__(self):
         return self._total_frames
 
